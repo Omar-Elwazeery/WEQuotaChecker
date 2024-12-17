@@ -16,4 +16,4 @@ pip install -r requirements.txt
 
 Download from Mediafire :
 
-https://www.mediafire.com/file/hjqrru0xo9vwbda/WEQuota.zip/file
+https://www.mediafire.com/file/wi0neir5v6goi7e/WEQuota.rar/file
