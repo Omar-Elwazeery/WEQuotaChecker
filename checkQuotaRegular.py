@@ -6,6 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import time
 init()
 
 sys.stdout.write("\x1b]0;[+] [BW] Check the remaining quota of WE [Mostafa Mohamed] [+]\x07")
@@ -24,6 +25,8 @@ print("")
 print(Fore.YELLOW + "                [+]",Fore.CYAN +" Dev : Mostafa Mohamed ",Fore.YELLOW+"[+]")
 print(Fore.YELLOW + "                    [+]",Fore.WHITE +" Fb.com/vk0x65 ",Fore.YELLOW+"[+]")
 print(Fore.YELLOW + "                 [+]",Fore.MAGENTA +" WE REMAINING QUOTA ",Fore.YELLOW+"[+]")
+print(Fore.YELLOW + "                 [+]",Fore.MAGENTA +" Updated by : Omar Elwaziry ",Fore.YELLOW+"[+]")
+print(Fore.YELLOW + "                 [+]",Fore.MAGENTA +" Fb.com/MadWeZZa ",Fore.YELLOW+"[+]")
 print("")
 
 try:
@@ -32,17 +35,41 @@ try:
     os.environ['MOZ_HEADLESS'] = '1'
     driver = webdriver.Firefox()
     driver.get("https://my.te.eg/user/login")
-    element = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '/html/body/app-root/div/div[1]/app-login/div/div/div/p-card[1]/div/div/div/form/div/div[1]/p-inputmask/input')))
+    element = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/section/main/div/div/div/div[2]/div/div[2]/div/div[1]/div/form/div/div/div/div/div/div[1]/input'))
+    )
     element.send_keys(user)
-    element = WebDriverWait(driver, 1).until(EC.presence_of_element_located((By.XPATH, '//*[@id="password"]')))
+    element = WebDriverWait(driver, 5).until(
+        EC.presence_of_element_located((By.XPATH, '/html/body/div[1]/section/main/div/div/div/div[2]/div/div[2]/div/div[2]/form/div/div/div/div/input'))
+    )
     element.send_keys(passwd)
-    button = driver.find_element(By.XPATH, '/html/body/app-root/div/div[1]/app-login/div/div/div/p-card[1]/div/div/div/form/div/button[1]').click()
-    driver.implicitly_wait(3)
-    remaining = WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, '/html/body/app-root/div/div[1]/app-dashboard/div/div/div[3]/p-card/div/div/div/div[2]/p-carousel/div/div/div/div/div/div/app-gauge/div[2]/span[1]')))
-    print(Fore.CYAN +" REMAINING QUOTA : " + Fore.GREEN +remaining.text[0:5]+Fore.WHITE+" GB")
+    service_type = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "ant-select-selector"))
+    )
+    service_type.click()
+    time.sleep(1)
+    internet_option = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'ant-select-item-option-content')]//span[contains(text(), 'Internet')]"))
+    )
+    internet_option.click()
+    time.sleep(1)
+    button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.ID, "login-withecare"))
+    )
+    button.click()
+    time.sleep(5)
+    WebDriverWait(driver, 10).until_not(
+        EC.presence_of_element_located((By.CLASS_NAME, "ant-spin-spinning"))
+    )
+    remaining = WebDriverWait(driver, 5).until(
+        EC.presence_of_element_located((By.XPATH, 
+            ".//span[contains(@style, 'font-size: 2.1875rem') and contains(@style, 'color: var(--ec-brand-primary)')]"
+        ))
+    )
+    print(Fore.CYAN + " REMAINING QUOTA : " + Fore.GREEN + remaining.text + Fore.WHITE + " GB")
     input("Press Enter to close...")
     driver.quit()
-except:
-    print(Fore.RED +"Your connection isn't stable .. try again later!")
+except Exception as e:
+    print(Fore.RED + "An error occurred. Please check your credentials and try again!")
     input("Press Enter to close...")
     driver.quit()
